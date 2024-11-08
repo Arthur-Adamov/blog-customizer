@@ -2,51 +2,85 @@ import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import clsx from 'clsx';
 import { Select } from '../../ui/select';
+import { RadioGroup } from '../../ui/radio-group';
 import { Separator } from '../../ui/separator';
 import { Text } from '../../ui/text';
 import { useState } from 'react';
-// import {
-// 	fontFamilyClasses,
-// 	fontFamilyOptions,
-// 	fontColors,
-// 	backgroundColors,
-// 	contentWidthArr,
-// 	fontSizeOptions,
-// 	defaultArticleState,
-// } from '../../constants/articleProps';
-
+import {
+	// fontFamilyClasses,
+	fontFamilyOptions,
+	fontColors,
+	backgroundColors,
+	contentWidthArr,
+	fontSizeOptions,
+	// defaultArticleState,
+} from '../../constants/articleProps';
 import styles from './ArticleParamsForm.module.scss';
 
-// const isOpenAside = clsx({
-
-// })
-
 export const ArticleParamsForm = () => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isFormOpen, setIsFormOpen] = useState(false);
+	const [isSelectFont, setIsSelectFont] = useState(fontFamilyOptions[0]);
+	const [isSelectFontSize, setIsSelectFontSize] = useState(fontSizeOptions[0]);
+	const [isSelectFontColor, setIsSelectFontColor] = useState(fontColors[0]);
+	const [isSelectBackgroungColor, setIsSelectBackgroungColor] = useState(
+		backgroundColors[0]
+	);
+	const [isSelectcontentWidth, setIsSelectcontentWidth] = useState(
+		contentWidthArr[0]
+	);
 
 	const toggle = () => {
-		setIsOpen(!isOpen);
+		setIsFormOpen(!isFormOpen);
 	};
 
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={toggle} />
+			<ArrowButton isOpen={isFormOpen} onClick={toggle} />
 			<aside
-				className={clsx(styles.container, isOpen && styles.container_open)}>
+				className={clsx(styles.container, isFormOpen && styles.container_open)}>
 				<form className={styles.form}>
-					<Text size={31} weight={800}>
+					<Text as='h2' size={31} weight={800} uppercase dynamicLite>
 						задайте параметры
 					</Text>
-					<Select selected={null} options={[]} title='шрифт' />
-					{/* <RadioGroup
-						name=''
-						options={[]}
-						selected={}
-						title='размер шрифта'/> */}
-					<Select selected={null} options={[]} title='цвет шрифта' />
+
+					<Select
+						selected={isSelectFont}
+						options={fontFamilyOptions}
+						title='шрифт'
+						onChange={setIsSelectFont}
+					/>
+
+					<RadioGroup
+						name='radio'
+						options={fontSizeOptions}
+						selected={isSelectFontSize}
+						title='размер шрифта'
+						onChange={setIsSelectFontSize}
+					/>
+
+					<Select
+						selected={isSelectFontColor}
+						options={fontColors}
+						title='цвет шрифта'
+						onChange={setIsSelectFontColor}
+					/>
+
 					<Separator />
-					<Select selected={null} options={[]} title='цвет фона' />
-					<Select selected={null} options={[]} title='ширина контента' />
+
+					<Select
+						selected={isSelectBackgroungColor}
+						options={backgroundColors}
+						title='цвет фона'
+						onChange={setIsSelectBackgroungColor}
+					/>
+
+					<Select
+						selected={isSelectcontentWidth}
+						options={contentWidthArr}
+						title='ширина контента'
+						onChange={setIsSelectcontentWidth}
+					/>
+
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' htmlType='reset' type='clear' />
 						<Button title='Применить' htmlType='submit' type='apply' />
